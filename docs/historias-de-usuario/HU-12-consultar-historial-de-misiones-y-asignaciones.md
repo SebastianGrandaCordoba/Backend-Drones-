@@ -20,9 +20,9 @@
 Característica: Historial de misiones
 
   Escenario: Consultar el historial de una misión
-    Dado que una misión tuvo una o más actualizaciones
+    Dado que una misión tuvo una o más asignaciones
     Cuando el operador consulta el historial
-    Entonces el sistema presenta las fechas y cambios de estado registrados
+    Entonces el sistema presenta la fecha de cada asignación y el estado actual de la misión
     Y presenta el dron, la estrategia y los criterios usados en la asignación
 
   Escenario: Filtrar historial por dron
@@ -39,3 +39,4 @@ Característica: Historial de misiones
 ## Notas
 
 - El historial debe conservar una instantánea de datos de asignación; reportes agregados y métricas quedan fuera del MVP.
+- El MVP no guarda una bitácora de cada cambio de estado con su fecha: muestra la fecha de la asignación, si sigue activa y el estado actual de la misión. Una bitácora completa de eventos queda como evolución futura.
