@@ -29,3 +29,21 @@ Esta matriz sirve como control de coherencia antes de modelar. No prescribe deta
 - La vista de desarrollo muestra la arquitectura hexagonal: dependencias hacia el dominio y adaptadores (REST, MongoDB) implementando puertos.
 - El despliegue representa operador/cliente REST, backend Spring Boot y MongoDB; no debe añadir frontend obligatorio ni nube/proveedor no especificados.
 
+
+## Trazabilidad hacia el código
+
+| Historia | Endpoint | Puerto de entrada | Clases principales |
+|---|---|---|---|
+| HU-01 | `POST /api/drones` | `IGestionFlota.registrar` | `GestionFlotaService`, `Dron` y sus 5 subclases |
+| HU-02 | `GET /api/drones` | `IConsultaFlota.consultar` | `GestionFlotaService`, `DronMongoAdapter` |
+| HU-03 | `PUT /api/drones/{id}/datos-operativos`, `/estado` | `IGestionFlota` | `Dron.actualizarDatosOperativos`, `enviarAMantenimiento`, `liberar` |
+| HU-04 | `POST /api/misiones` | `IGestionMisiones.registrar` | `GestionMisionesService`, `Mision` |
+| HU-05 | `GET /api/misiones/pendientes` | `IConsultaMisiones.consultarPendientes` | `GestionMisionesService` (orden prioridad/límite) |
+| HU-06 | `POST /api/asignaciones` | `IAsignacion.asignar` | `AsignacionService`, `MotorAsignacion`, `Dron.puedeAtender` |
+| HU-07 | `POST /api/asignaciones`, `GET /estrategias` | `IAsignacion.asignar` | `EstrategiaAsignacion`, `MenorDistancia`, `MayorBateria` |
+| HU-08 | `GET /api/asignaciones/mision/{id}` | `IAsignacion.consultarAsignacionDeMision` | `Asignacion` (instantánea de distancia y batería) |
+| HU-09 | `POST /api/asignaciones` (200 sin candidato) | `IAsignacion.asignar` | `ResultadoAsignacion`, `MotivoRechazo` |
+| HU-10 | `POST /api/asignaciones` | `IAsignacion.asignar` | `DronRepositorio.marcarAsignadoSiDisponible` (actualización atómica) |
+| HU-11 | `POST /api/misiones/{id}/iniciar|completar|cancelar` | `IGestionMisiones` | `Mision`, `Dron`, `Asignacion.cerrar` |
+| HU-12 | `GET /api/asignaciones?dronId=&misionId=` | `IAsignacion.consultarHistorial` | `AsignacionRepositorio`, `AsignacionMongoAdapter` |
+| HU-13 | `PUT/GET /api/configuracion/reserva` | `IConfiguracionOperativa`, `IConsultaReserva` | `ConfiguracionService`, `ReservaOperativa` |
