@@ -1,0 +1,12 @@
+# Levanta MongoDB 7 para desarrollo local (servidor de base de datos de la vista de despliegue).
+services:
+  mongodb:
+    image: mongo:7
+    container_name: centro-control-drones-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - datos-mongo:/data/db
+
+volumes:
+  datos-mongo:
