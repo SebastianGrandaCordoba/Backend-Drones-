@@ -100,7 +100,7 @@ Java 21 · Spring Boot 3.3 · MongoDB 7 · Maven · JUnit 5.
 
    ```bash
    mvn package
-   java -jar target/centro-control-drones.jar
+   java -jar target/centro-control-drones-1.0.0.jar
    ```
 
 3. La API queda en `http://localhost:8080/api`. Para usar otra base de datos defina la variable `MONGODB_URI`.
@@ -113,7 +113,14 @@ Antes de solicitar asignaciones hay que configurar la reserva operativa (HU-13);
 mvn test
 ```
 
-Las pruebas no necesitan MongoDB: las de dominio verifican las estrategias, la elegibilidad, los motivos de rechazo y las transiciones de estado; las de aplicación recorren los casos de uso completos con repositorios en memoria, incluida la doble asignación simultánea (HU-10).
+Las pruebas no necesitan MongoDB: las de dominio verifican las estrategias, la elegibilidad, los motivos de rechazo y las transiciones de estado; las de aplicación recorren los casos de uso completos con repositorios en memoria, incluida la doble asignación simultánea (HU-10); las de infraestructura (`ApiRestTest`) verifican el contrato HTTP del adaptador REST: códigos 201/200/400/404/409 y validación de campos.
+
+Prueba de humo de punta a punta, con la aplicación corriendo sobre una base de datos vacía (recorre HU-01 a HU-13 y termina con código 1 si algo falla):
+
+```bash
+MONGODB_URI=mongodb://localhost:27017/drones_prueba java -jar target/centro-control-drones-1.0.0.jar
+python3 scripts/prueba-de-humo.py
+```
 
 ## API REST
 

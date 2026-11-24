@@ -43,7 +43,6 @@
     </dependencies>
 
     <build>
-        <finalName>centro-control-drones</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
