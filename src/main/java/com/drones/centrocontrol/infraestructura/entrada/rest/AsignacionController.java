@@ -46,7 +46,9 @@ public class AsignacionController {
     public DetalleMision detalleDeMision(@PathVariable String misionId) {
         return asignacion.consultarAsignacionDeMision(misionId)
                 .map(a -> new DetalleMision(misionId, a.getMision().getEstado(), true,
-                        "Misión con dron asignado", AsignacionRespuesta.desde(a)))
+                        a.isActiva() ? "Misión con dron asignado (asignación activa)"
+                                : "Asignación cerrada: la misión está " + a.getMision().getEstado(),
+                        AsignacionRespuesta.desde(a)))
                 .orElseGet(() -> new DetalleMision(misionId, null, false, "La misión sigue sin asignar", null));
     }
 
