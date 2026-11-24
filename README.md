@@ -107,6 +107,18 @@ Java 21 · Spring Boot 3.3 · MongoDB 7 · Maven · JUnit 5.
 
 Antes de solicitar asignaciones hay que configurar la reserva operativa (HU-13); el sistema no asume un valor por defecto.
 
+## Despliegue en Render
+
+El repositorio trae un `Dockerfile` (compila con Maven y ejecuta con Java 21) y un `render.yaml`.
+
+1. Cree un clúster gratuito en [MongoDB Atlas](https://www.mongodb.com/cloud/atlas), un usuario de base de datos y permita el acceso desde cualquier IP (`0.0.0.0/0`). Copie la cadena de conexión y agréguele el nombre de la base: `mongodb+srv://usuario:clave@cluster.xxxxx.mongodb.net/centro_control_drones`.
+2. En Render: **New > Blueprint**, elija este repositorio y complete las variables:
+   - `MONGODB_URI`: la cadena de Atlas.
+   - `CORS_ORIGENES`: la URL del frontend, por ejemplo `https://frontend-drones.onrender.com`.
+3. Render construye la imagen y publica la API en `https://backend-drones.onrender.com/api`. El puerto lo toma de la variable `PORT` que define Render (localmente sigue siendo 8080).
+
+En el plan gratuito el servicio se suspende tras 15 minutos sin uso; la primera petición después tarda cerca de un minuto en responder.
+
 ## Pruebas
 
 ```bash
