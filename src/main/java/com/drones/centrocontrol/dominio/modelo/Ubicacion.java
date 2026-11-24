@@ -2,14 +2,14 @@ package com.drones.centrocontrol.dominio.modelo;
 
 /**
  * Coordenadas geográficas de un dron o del destino de una misión.
- * Es inmutable: un cambio de posición se representa con una nueva ubicación.
+ * Sus coordenadas se validan tanto en el constructor como en los setters.
  */
 public class Ubicacion {
 
     private static final double RADIO_TIERRA_KM = 6371.0;
 
-    private final double latitud;
-    private final double longitud;
+    private double latitud;
+    private double longitud;
 
     public Ubicacion(double latitud, double longitud) {
         if (latitud < -90 || latitud > 90) {
@@ -41,5 +41,21 @@ public class Ubicacion {
 
     public double getLongitud() {
         return longitud;
+    }
+
+    // Setters: aplican las mismas validaciones del constructor.
+
+    public void setLatitud(double latitud) {
+        if (latitud < -90 || latitud > 90) {
+            throw new IllegalArgumentException("La latitud debe estar entre -90 y 90");
+        }
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud) {
+        if (longitud < -180 || longitud > 180) {
+            throw new IllegalArgumentException("La longitud debe estar entre -180 y 180");
+        }
+        this.longitud = longitud;
     }
 }

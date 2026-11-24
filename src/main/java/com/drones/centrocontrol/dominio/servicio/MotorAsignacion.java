@@ -29,12 +29,25 @@ public class MotorAsignacion {
     private final Map<String, EstrategiaAsignacion> estrategias = new LinkedHashMap<>();
 
     public MotorAsignacion(List<EstrategiaAsignacion> estrategias) {
+        setEstrategias(estrategias);
+    }
+
+    /** Estrategias registradas, indexadas por nombre (solo lectura). */
+    public Map<String, EstrategiaAsignacion> getEstrategias() {
+        return Map.copyOf(estrategias);
+    }
+
+    /** Reemplaza las estrategias; exige que exista la predeterminada MENOR_DISTANCIA. */
+    public void setEstrategias(List<EstrategiaAsignacion> estrategias) {
+        Map<String, EstrategiaAsignacion> nuevas = new LinkedHashMap<>();
         for (EstrategiaAsignacion estrategia : estrategias) {
-            this.estrategias.put(estrategia.getNombre(), estrategia);
+            nuevas.put(estrategia.getNombre(), estrategia);
         }
-        if (!this.estrategias.containsKey(MenorDistancia.NOMBRE)) {
+        if (!nuevas.containsKey(MenorDistancia.NOMBRE)) {
             throw new IllegalArgumentException("Falta la estrategia predeterminada " + MenorDistancia.NOMBRE);
         }
+        this.estrategias.clear();
+        this.estrategias.putAll(nuevas);
     }
 
     /**

@@ -5,11 +5,12 @@ import java.util.Objects;
 /**
  * Dron de la flota. Es abstracto porque la capacidad significa algo distinto en cada tipo
  * (kg, GB, h, L o ha); cada subclase define su tipo de misión y su unidad.
- * El estado solo cambia mediante operaciones con significado de negocio (encapsulamiento).
+ * El flujo de negocio cambia el estado con operaciones con significado (marcarAsignado, liberar...);
+ * los getters y setters validan cada atributo para no romper invariantes.
  */
 public abstract class Dron {
 
-    private final String id;
+    private String id;
     protected double bateria;
     protected double autonomiaKm;
     protected double capacidad;
@@ -127,5 +128,39 @@ public abstract class Dron {
 
     public Ubicacion getUbicacion() {
         return ubicacion;
+    }
+
+    // Setters: aplican las mismas validaciones del constructor para no romper invariantes.
+
+    public void setId(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("El identificador del dron es obligatorio");
+        }
+        this.id = id;
+    }
+
+    public void setBateria(double bateria) {
+        validarBateria(bateria);
+        this.bateria = bateria;
+    }
+
+    public void setAutonomiaKm(double autonomiaKm) {
+        validarAutonomia(autonomiaKm);
+        this.autonomiaKm = autonomiaKm;
+    }
+
+    public void setCapacidad(double capacidad) {
+        if (capacidad <= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser mayor que cero");
+        }
+        this.capacidad = capacidad;
+    }
+
+    public void setEstado(EstadoDron estado) {
+        this.estado = Objects.requireNonNull(estado, "El estado del dron es obligatorio");
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = Objects.requireNonNull(ubicacion, "La ubicación del dron es obligatoria");
     }
 }

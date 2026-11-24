@@ -10,13 +10,13 @@ import java.util.Objects;
  */
 public class Asignacion {
 
-    private final String id;
-    private final Mision mision;
-    private final Dron dron;
-    private final String estrategia;
-    private final LocalDateTime fecha;
-    private final double distanciaAlDestinoKm;
-    private final double bateriaAlAsignar;
+    private String id;
+    private Mision mision;
+    private Dron dron;
+    private String estrategia;
+    private LocalDateTime fecha;
+    private double distanciaAlDestinoKm;
+    private double bateriaAlAsignar;
     private boolean activa;
 
     public Asignacion(String id, Mision mision, Dron dron, String estrategia, LocalDateTime fecha,
@@ -66,5 +66,39 @@ public class Asignacion {
 
     public boolean isActiva() {
         return activa;
+    }
+
+    // Setters: aplican las mismas validaciones del constructor para no romper invariantes.
+
+    public void setId(String id) {
+        this.id = Objects.requireNonNull(id, "El identificador de la asignación es obligatorio");
+    }
+
+    public void setMision(Mision mision) {
+        this.mision = Objects.requireNonNull(mision, "La misión es obligatoria");
+    }
+
+    public void setDron(Dron dron) {
+        this.dron = Objects.requireNonNull(dron, "El dron es obligatorio");
+    }
+
+    public void setEstrategia(String estrategia) {
+        this.estrategia = Objects.requireNonNull(estrategia, "La estrategia es obligatoria");
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = Objects.requireNonNull(fecha, "La fecha es obligatoria");
+    }
+
+    public void setDistanciaAlDestinoKm(double distanciaAlDestinoKm) {
+        this.distanciaAlDestinoKm = distanciaAlDestinoKm;
+    }
+
+    public void setBateriaAlAsignar(double bateriaAlAsignar) {
+        this.bateriaAlAsignar = bateriaAlAsignar;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
     }
 }

@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class ResultadoAsignacion {
 
-    private final Asignacion asignacion;
-    private final List<MotivoRechazo> motivos;
+    private Asignacion asignacion;
+    private List<MotivoRechazo> motivos;
 
     public ResultadoAsignacion(Asignacion asignacion, List<MotivoRechazo> motivos) {
         this.asignacion = asignacion;
@@ -27,5 +27,13 @@ public class ResultadoAsignacion {
 
     public List<MotivoRechazo> getMotivos() {
         return motivos;
+    }
+
+    public void setAsignacion(Asignacion asignacion) {
+        this.asignacion = asignacion;
+    }
+
+    public void setMotivos(List<MotivoRechazo> motivos) {
+        this.motivos = motivos == null ? List.of() : List.copyOf(motivos);
     }
 }

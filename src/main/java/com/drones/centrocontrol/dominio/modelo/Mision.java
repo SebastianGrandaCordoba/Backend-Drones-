@@ -5,17 +5,17 @@ import java.util.Objects;
 
 /**
  * Misión que debe atender un dron. El estado solo avanza por las transiciones
- * permitidas del ciclo de vida (HU-11); no se modifica directamente desde fuera.
+ * permitidas del ciclo de vida (HU-11); los setters validan cada atributo.
  */
 public class Mision {
 
-    private final String id;
-    private final TipoMision tipo;
-    private final Prioridad prioridad;
-    private final double distanciaKm;
-    private final LocalDateTime limiteTiempo;
-    private final Ubicacion destino;
-    private final double capacidadRequerida;
+    private String id;
+    private TipoMision tipo;
+    private Prioridad prioridad;
+    private double distanciaKm;
+    private LocalDateTime limiteTiempo;
+    private Ubicacion destino;
+    private double capacidadRequerida;
     private EstadoMision estado;
 
     public Mision(String id, TipoMision tipo, Prioridad prioridad, double distanciaKm,
@@ -108,5 +108,48 @@ public class Mision {
 
     public EstadoMision getEstado() {
         return estado;
+    }
+
+    // Setters: aplican las mismas validaciones del constructor para no romper invariantes.
+
+    public void setId(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("El identificador de la misión es obligatorio");
+        }
+        this.id = id;
+    }
+
+    public void setTipo(TipoMision tipo) {
+        this.tipo = Objects.requireNonNull(tipo, "El tipo de misión es obligatorio");
+    }
+
+    public void setPrioridad(Prioridad prioridad) {
+        this.prioridad = Objects.requireNonNull(prioridad, "La prioridad es obligatoria");
+    }
+
+    public void setDistanciaKm(double distanciaKm) {
+        if (distanciaKm <= 0) {
+            throw new IllegalArgumentException("La distancia planificada debe ser mayor que cero");
+        }
+        this.distanciaKm = distanciaKm;
+    }
+
+    public void setLimiteTiempo(LocalDateTime limiteTiempo) {
+        this.limiteTiempo = Objects.requireNonNull(limiteTiempo, "El límite de tiempo es obligatorio");
+    }
+
+    public void setDestino(Ubicacion destino) {
+        this.destino = Objects.requireNonNull(destino, "El destino es obligatorio");
+    }
+
+    public void setCapacidadRequerida(double capacidadRequerida) {
+        if (capacidadRequerida < 0) {
+            throw new IllegalArgumentException("La capacidad requerida no puede ser negativa");
+        }
+        this.capacidadRequerida = capacidadRequerida;
+    }
+
+    public void setEstado(EstadoMision estado) {
+        this.estado = Objects.requireNonNull(estado, "El estado de la misión es obligatorio");
     }
 }
